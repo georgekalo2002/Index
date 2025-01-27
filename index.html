@@ -3,31 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Funny Memes</title>
+  <title>Πόσο χάλια είσαι;</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
+      background-color: #f9f9f9;
+      color: #333;
       margin: 0;
       padding: 0;
     }
     h1 {
       margin-top: 20px;
-      color: #333;
+      font-size: 2em;
+      color: #555;
     }
-    img {
-      max-width: 90%;
-      height: auto;
-      margin: 20px 0;
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      border: none;
       border-radius: 8px;
+      background-color: #ffcccb;
+      color: #333;
+      cursor: pointer;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+    .hidden {
+      display: none;
+    }
+    .response {
+      font-size: 1.5em;
+      color: #0077cc;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>Enjoy Some Memes!</h1>
-  <img src="https://via.placeholder.com/300x300?text=Meme+1" alt="Meme 1">
-  <img src="https://via.placeholder.com/300x300?text=Meme+2" alt="Meme 2">
-  <img src="https://via.placeholder.com/300x300?text=Meme+3" alt="Meme 3">
+  <h1>Ποιο ειναι το μουντ σου σημερα 🤔 ΤΟ ΠΙΟ ΑΚΙΟΥΡΕΙΤ ΤΕΣΤ ΣΥΜΦΩΝΑ ΕΠΙΛΕΓΜΕΝΕΣ ΜΠΑΡΤΕΝΤΕΡ ΤΗΣ ΦΛΩΡΙΝΑΣ</h1>
+  <button onclick="showResponse('Είμαι εντάξει... λίγο καλύτερα από το τοστ χωρίς βούτυρο 🥪')">1️⃣ Το τοστ χωρίς βούτυρο</button>
+  <button onclick="showResponse('Εισαι λιγο χειροτερα, σαν να σκεφτεσαι οτι δεν εισαι Puerto Rico να χορευεις')">2️⃣ Χαμένη σεζόν</button>
+  <button onclick="showResponse('Δε γελαω ουτε με το 5 χρονων μεγαλος ανθρωπος ΦΑΝΤΑΣΟΥ')">3️⃣ Μούσκεμα</button>
+  <button onclick="showResponse('Δε θελω ουτε ντοματα σημερα ειμαι για σκοτωμα μαλακα')">4️⃣ No Wi-Fi</button>
+  <button onclick="showResponse('Δεν περιγραφω αλλο')">5️⃣ Decaf καφές</button>
+  
+  <div class="response hidden" id="response"></div>
+
+  <script>
+    function showResponse(message) {
+      const responseDiv = document.getElementById('response');
+      responseDiv.textContent = message;
+      responseDiv.classList.remove('hidden');
+    }
+  </script>
 </body>
 </html>
