@@ -50,8 +50,8 @@
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
-    .small-image {
-      max-width: 45%; /* Μισό μέγεθος */
+    .tiny-image {
+      max-width: 10%; /* 1/10 του μεγέθους */
     }
   </style>
 </head>
@@ -69,7 +69,7 @@
   </div>
 
   <script>
-    function showResponse(message, imageUrl, isSmall = false) {
+    function showResponse(message, imageUrl, isTiny = false) {
       const responseDiv = document.getElementById('response');
       const responseText = document.getElementById('responseText');
       const responseImage = document.getElementById('responseImage');
@@ -77,11 +77,11 @@
       responseText.textContent = message;
       responseImage.src = imageUrl;
       
-      // Εφαρμόζουμε το "small-image" αν είναι το τελευταίο κουμπί
-      if (isSmall) {
-        responseImage.classList.add('small-image');
+      // Εφαρμόζουμε την κλάση "tiny-image" αν είναι το τελευταίο κουμπί
+      if (isTiny) {
+        responseImage.classList.add('tiny-image');
       } else {
-        responseImage.classList.remove('small-image');
+        responseImage.classList.remove('tiny-image');
       }
 
       responseDiv.classList.remove('hidden');
