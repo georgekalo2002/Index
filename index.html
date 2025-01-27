@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Πόσο χάλια είσαι;</title>
+  <title>Ποιο ειναι το μουντ σου σημερα;</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -43,22 +43,37 @@
       color: #0077cc;
       margin-top: 20px;
     }
+    img {
+      max-width: 90%;
+      height: auto;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
   </style>
 </head>
 <body>
   <h1>Ποιο ειναι το μουντ σου σημερα 🤔 ΤΟ ΠΙΟ ΑΚΙΟΥΡΕΙΤ ΤΕΣΤ ΣΥΜΦΩΝΑ ΕΠΙΛΕΓΜΕΝΕΣ ΜΠΑΡΤΕΝΤΕΡ ΤΗΣ ΦΛΩΡΙΝΑΣ</h1>
-  <button onclick="showResponse('Είμαι εντάξει... λίγο καλύτερα από το τοστ χωρίς βούτυρο 🥪')">1️⃣ Το τοστ χωρίς βούτυρο</button>
-  <button onclick="showResponse('Εισαι λιγο χειροτερα, σαν να σκεφτεσαι οτι δεν εισαι Puerto Rico να χορευεις')">2️⃣ Χαμένη σεζόν</button>
-  <button onclick="showResponse('Δε γελαω ουτε με το 5 χρονων μεγαλος ανθρωπος ΦΑΝΤΑΣΟΥ')">3️⃣ Μούσκεμα</button>
-  <button onclick="showResponse('Δε θελω ουτε ντοματα σημερα ειμαι για σκοτωμα μαλακα')">4️⃣ No Wi-Fi</button>
-  <button onclick="showResponse('Δεν περιγραφω αλλο')">5️⃣ Decaf καφές</button>
+  <button onclick="showResponse('Είμαι εντάξει... λίγο καλύτερα από το τοστ χωρίς βούτυρο 🥪', 'https://github.com/georgekalo2002/Index/blob/main/1e7a12e7fadd7e3ada754d94f19b9f6c.jpg?raw=true')">1️⃣ Το τοστ χωρίς βούτυρο</button>
+  <button onclick="showResponse('Εισαι λιγο χειροτερα, σαν να σκεφτεσαι οτι δεν εισαι Puerto Rico να χορευεις', 'https://github.com/georgekalo2002/Index/blob/main/474545780_1172646927546234_3169950773025935205_n.jpg?raw=true')">2️⃣ Puerto Rico</button>
+  <button onclick="showResponse('Δε γελαω ουτε με το 5 χρονων μεγαλος ανθρωπος ΦΑΝΤΑΣΟΥ', 'https://github.com/georgekalo2002/Index/blob/main/b2a2f0fcc50900bfa23cd4de01066969.jpg?raw=true')">3️⃣ 5 Χρονων μεγαλος ανθρωπος</button>
+  <button onclick="showResponse('Δε θελω ουτε ντοματα σημερα ειμαι για σκοτωμα μαλακα', 'https://github.com/georgekalo2002/Index/blob/main/f792fbb26b0c1d74d05ac5a8013c5e41.jpg?raw=true')">4️⃣ ΟΥΤΕ ΚΑΝ ΝΤΟΜΑΤΑ</button>
+  <button onclick="showResponse('Δεν περιγραφω αλλο', 'https://github.com/georgekalo2002/Index/blob/main/474098920_924223303195345_2917352902543301410_n.jpg?raw=true')">5️⃣ Δεν περιγράφω άλλο</button>
   
-  <div class="response hidden" id="response"></div>
+  <div class="response hidden" id="response">
+    <p id="responseText"></p>
+    <img id="responseImage" src="" alt="Response Image">
+  </div>
 
   <script>
-    function showResponse(message) {
+    function showResponse(message, imageUrl) {
       const responseDiv = document.getElementById('response');
-      responseDiv.textContent = message;
+      const responseText = document.getElementById('responseText');
+      const responseImage = document.getElementById('responseImage');
+      
+      responseText.textContent = message;
+      responseImage.src = imageUrl;
+      
       responseDiv.classList.remove('hidden');
     }
   </script>
