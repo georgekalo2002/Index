@@ -12,13 +12,20 @@
       color: #333;
       margin: 0;
       padding: 0;
-      overflow: hidden;
     }
+    
+    .container {
+      min-height: 100vh;
+      overflow-y: auto;
+      padding-bottom: 50px;
+    }
+
     h1 {
       margin-top: 20px;
       font-size: 2em;
       color: #555;
     }
+
     button {
       display: block;
       margin: 20px auto;
@@ -32,18 +39,22 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       transition: transform 0.2s, box-shadow 0.2s;
     }
+
     button:hover {
       transform: scale(1.05);
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     }
+
     .hidden {
       display: none;
     }
+
     .response {
       font-size: 1.5em;
       color: #0077cc;
       margin-top: 20px;
     }
+
     img {
       max-width: 90%;
       height: auto;
@@ -84,6 +95,7 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       transition: transform 0.2s, box-shadow 0.2s;
     }
+
     .spotify-button:hover {
       transform: scale(1.1);
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
@@ -92,23 +104,23 @@
 </head>
 <body>
 
-  <h1>Ποιο ειναι το μουντ σου σημερα 🤔 ΤΟ ΠΙΟ ΑΚΙΟΥΡΕΙΤ ΤΕΣΤ ΣΥΜΦΩΝΑ ΕΠΙΛΕΓΜΕΝΕΣ ΜΠΑΡΤΕΝΤΕΡ ΤΗΣ ΦΛΩΡΙΝΑΣ</h1>
+  <div class="container">
+    <h1>Ποιο ειναι το μουντ σου σημερα 🤔 ΤΟ ΠΙΟ ΑΚΙΟΥΡΕΙΤ ΤΕΣΤ ΣΥΜΦΩΝΑ ΕΠΙΛΕΓΜΕΝΕΣ ΜΠΑΡΤΕΝΤΕΡ ΤΗΣ ΦΛΩΡΙΝΑΣ</h1>
 
-  <!-- 🔴 Spotify Button (ΤΩΡΑ ΚΑΤΩ ΑΠΟ ΤΟΝ ΤΙΤΛΟ) -->
-  <a href="https://open.spotify.com/track/5ZDKPFRZC6QlJpf8bCIXTs?si=5089bc1865554c8d" class="spotify-button">🎵</a>
+    <a href="https://open.spotify.com/track/5ZDKPFRZC6QlJpf8bCIXTs?si=5089bc1865554c8d" class="spotify-button">🎵</a>
 
-  <button onclick="showResponse('Είμαι εντάξει... λίγο καλύτερα από το τοστ χωρίς βούτυρο 🥪', 'https://github.com/georgekalo2002/Index/blob/main/1e7a12e7fadd7e3ada754d94f19b9f6c.jpg?raw=true')">1️⃣ Το τοστ χωρίς βούτυρο</button>
-  <button onclick="showResponse('Είσαι λίγο χειρότερα, σαν να σκέφτεσαι ότι δεν είσαι Puerto Rico να χορεύεις', 'https://github.com/georgekalo2002/Index/blob/main/474545780_1172646927546234_3169950773025935205_n.jpg?raw=true')">2️⃣ Puerto Rico</button>
-  <button onclick="showResponse('Δε γελάω ούτε με το 5 χρονών μεγάλος άνθρωπος ΦΑΝΤΑΣΟΥ', 'https://github.com/georgekalo2002/Index/blob/main/b2a2f0fcc50900bfa23cd4de01066969.jpg?raw=true')">3️⃣ 5 Χρονών μεγάλος άνθρωπος</button>
-  <button onclick="showResponse('Δε θέλω ούτε ντομάτα σήμερα είμαι για σκότωμα μαλάκα', 'https://github.com/georgekalo2002/Index/blob/main/f792fbb26b0c1d74d05ac5a8013c5e41.jpg?raw=true')">4️⃣ ΟΥΤΕ ΚΑΝ ΝΤΟΜΑΤΑ</button>
-  <button onclick="showResponse('Δεν περιγράφω άλλο', 'https://github.com/georgekalo2002/Index/blob/main/474098920_924223303195345_2917352902543301410_n.jpg?raw=true')">5️⃣ Δεν περιγράφω άλλο</button>
+    <button onclick="showResponse('Είμαι εντάξει... λίγο καλύτερα από το τοστ χωρίς βούτυρο 🥪', 'https://github.com/georgekalo2002/Index/blob/main/1e7a12e7fadd7e3ada754d94f19b9f6c.jpg?raw=true')">1️⃣ Το τοστ χωρίς βούτυρο</button>
+    <button onclick="showResponse('Είσαι λίγο χειρότερα, σαν να σκέφτεσαι ότι δεν είσαι Puerto Rico να χορεύεις', 'https://github.com/georgekalo2002/Index/blob/main/474545780_1172646927546234_3169950773025935205_n.jpg?raw=true')">2️⃣ Puerto Rico</button>
+    <button onclick="showResponse('Δε γελάω ούτε με το 5 χρονών μεγάλος άνθρωπος ΦΑΝΤΑΣΟΥ', 'https://github.com/georgekalo2002/Index/blob/main/b2a2f0fcc50900bfa23cd4de01066969.jpg?raw=true')">3️⃣ 5 Χρονών μεγάλος άνθρωπος</button>
+    <button onclick="showResponse('Δε θέλω ούτε ντομάτα σήμερα είμαι για σκότωμα μαλάκα', 'https://github.com/georgekalo2002/Index/blob/main/f792fbb26b0c1d74d05ac5a8013c5e41.jpg?raw=true')">4️⃣ ΟΥΤΕ ΚΑΝ ΝΤΟΜΑΤΑ</button>
+    <button onclick="showResponse('Δεν περιγράφω άλλο', 'https://github.com/georgekalo2002/Index/blob/main/474098920_924223303195345_2917352902543301410_n.jpg?raw=true')">5️⃣ Δεν περιγράφω άλλο</button>
 
-  <div class="response hidden" id="response">
-    <p id="responseText"></p>
-    <img id="responseImage" src="" alt="Response Image">
+    <div class="response hidden" id="response">
+      <p id="responseText"></p>
+      <img id="responseImage" src="" alt="Response Image">
+    </div>
   </div>
 
-  <!-- 🎶 Background Music -->
   <audio id="backgroundMusic" loop>
     <source src="https://www.dropbox.com/scl/fi/umwj4xhk7l5lf5buso59k/Elvis-Presley-Burning-Love-Official-Audio.mp3?rlkey=xw9ev7pbmf5qcq7l5br9v8umb&st=b2jfb35o&raw=1" type="audio/mp3">
   </audio>
@@ -118,26 +130,25 @@
       const responseDiv = document.getElementById('response');
       const responseText = document.getElementById('responseText');
       const responseImage = document.getElementById('responseImage');
-      
+
       responseText.textContent = message;
       responseImage.src = imageUrl;
-      
+
       responseDiv.classList.remove('hidden');
     }
 
-    // Δημιουργία καρδιών & νεραϊδών
     function createFloatingEmoji() {
       const emojis = ["❤️‍🔥", "🧚‍♀️"];
       const emoji = document.createElement("div");
       emoji.classList.add("floatingEmoji");
       emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
-      
+
       emoji.style.left = Math.random() * 100 + "vw";
       emoji.style.animationDuration = Math.random() * 3 + 4 + "s";
       emoji.style.fontSize = Math.random() * 20 + 30 + "px";
-      
+
       document.body.appendChild(emoji);
-      
+
       setTimeout(() => {
         emoji.remove();
       }, 5000);
@@ -145,12 +156,11 @@
 
     setInterval(createFloatingEmoji, 200);
 
-    // Παίζει μουσική όταν πατηθεί η σελίδα
     document.addEventListener("click", function() {
       let audio = document.getElementById("backgroundMusic");
       audio.play();
     }, { once: true });
-
   </script>
+
 </body>
 </html>
