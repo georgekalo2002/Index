@@ -3,140 +3,184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Σύστημα Αποκομιδής Τοξικότητας</title>
+  <title>Εξολοθρευτής Κακής Μέρας</title>
   <style>
     body {
-      background-color: #121212;
-      color: #e0e0e0;
-      font-family: 'Courier New', Courier, monospace;
-      text-align: center;
-      padding: 50px 20px;
-      margin: 0;
-    }
-
-    h1 {
-      color: #ff4444;
-      font-size: 2em;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 1.1em;
-      margin-bottom: 30px;
-      color: #aaaaaa;
-    }
-
-    textarea {
-      width: 90%;
-      max-width: 600px;
-      height: 200px;
-      background-color: #1e1e1e;
-      color: #ffffff;
-      border: 2px solid #333;
-      border-radius: 8px;
-      padding: 15px;
-      font-size: 16px;
-      font-family: inherit;
-      resize: none;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    }
-
-    textarea:focus {
-      outline: none;
-      border-color: #ff4444;
-    }
-
-    button {
-      background-color: #ff4444;
+      background-color: #1a1a2e;
       color: #fff;
-      border: none;
-      padding: 15px 40px;
-      font-size: 1.2em;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 5px;
-      transition: all 0.2s ease-in-out;
-      box-shadow: 0 4px 8px rgba(255, 68, 68, 0.2);
-    }
-
-    button:hover {
-      background-color: #cc0000;
-      transform: scale(1.05);
-    }
-
-    /* Animation εξαΰλωσης */
-    .nuke-animation {
-      animation: nukeIt 1s forwards;
-    }
-
-    @keyframes nukeIt {
-      0% { transform: scale(1); opacity: 1; filter: blur(0); }
-      50% { transform: scale(0.9) translateY(20px); opacity: 0.5; filter: blur(4px); background-color: #ff0000; }
-      100% { transform: scale(0) translateY(100px); opacity: 0; filter: blur(10px); }
-    }
-
-    #successMessage {
-      display: none;
-      margin-top: 40px;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
       padding: 20px;
-      border: 1px solid #333;
+      user-select: none;
+    }
+    h1 { 
+      color: #ff4c4c; 
+      margin-bottom: 5px;
+    }
+    p {
+      color: #a5a5b0;
+      margin-bottom: 20px;
+    }
+    #scoreBoard { 
+      font-size: 1.5em; 
+      margin-bottom: 20px; 
+      height: 30px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 15px;
+      justify-content: center;
+      margin: 0 auto;
+    }
+    .hole {
+      width: 100px;
+      height: 100px;
+      background-color: #16213e;
+      border-radius: 50%;
+      border: 4px solid #0f3460;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5em;
+      cursor: crosshair;
+      transition: background-color 0.1s;
+      overflow: hidden; /* Για να μην βγαίνουν οι εικόνες έξω από τον κύκλο */
+    }
+    .hole:active { 
+      background-color: #e94560; 
+      border-color: #ff4c4c;
+    }
+    .target-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none; /* Για να πιάνει το κλικ η τρύπα και όχι η εικόνα */
+    }
+    #startBtn {
+      margin-top: 30px;
+      padding: 12px 25px;
+      font-size: 1.2em;
+      background-color: #e94560;
+      color: white;
+      border: none;
       border-radius: 8px;
-      background-color: #1a1a1a;
-    }
-
-    .success-text {
-      color: #00ff00;
-      font-size: 1.3em;
+      cursor: pointer;
       font-weight: bold;
-      margin-bottom: 10px;
     }
-
-    .karma-text {
-      color: #e0e0e0;
-      font-size: 1.1em;
+    #startBtn:hover {
+      background-color: #ff4c4c;
     }
   </style>
 </head>
 <body>
 
-  <div id="mainContainer">
-    <h1>Σύστημα Αποκομιδής Τοξικότητας ☣️</h1>
-    <p>Γράψε αναλυτικά τι μαλακία συνέβη σήμερα και ποιος πρέπει να πάει στο διάολο.</p>
-    
-    <textarea id="rantBox" placeholder="Ρίξε το δηλητήριο σου εδώ..."></textarea><br>
-    
-    <button id="nukeBtn" onclick="triggerNuke()">ΕΞΑΥΛΩΣΗ</button>
+  <h1>Εξολοθρευτής 🔨</h1>
+  <p>Κοπάνα ό,τι πετάγεται. Βγάλε το άχτι σου.</p>
+  
+  <div id="scoreBoard">Σκορ: <span id="score">0</span></div>
+  
+  <div class="grid">
+    <div class="hole" id="hole-0"></div>
+    <div class="hole" id="hole-1"></div>
+    <div class="hole" id="hole-2"></div>
+    <div class="hole" id="hole-3"></div>
+    <div class="hole" id="hole-4"></div>
+    <div class="hole" id="hole-5"></div>
+    <div class="hole" id="hole-6"></div>
+    <div class="hole" id="hole-7"></div>
+    <div class="hole" id="hole-8"></div>
   </div>
 
-  <div id="successMessage">
-    <div class="success-text">✅ Ο στόχος κλείδωσε επιτυχώς.</div>
-    <div class="karma-text">Τα δεδομένα διαγράφηκαν. Στέλνουμε 10 χρόνια κακό κάρμα, αϋπνία και γαστρεντερίτιδα στους υπεύθυνους. Εσύ πήγαινε να αράξεις.</div>
-  </div>
+  <button id="startBtn" onclick="startGame()">Start</button>
 
   <script>
-    function triggerNuke() {
-      const box = document.getElementById('rantBox');
-      const btn = document.getElementById('nukeBtn');
-      const msg = document.getElementById('successMessage');
+    const holes = document.querySelectorAll('.hole');
+    const startBtn = document.getElementById('startBtn');
+    const scoreBoard = document.getElementById('scoreBoard');
+    let lastHole;
+    let timeUp = false;
+    let score = 0;
+    let popTimer;
 
-      // Αν είναι άδειο, δεν κάνει τίποτα
-      if(box.value.trim() === "") {
-        box.placeholder = "Γράψε κάτι πρώτα ρε...";
-        return;
-      }
+    // Τα JPEGs από το GitHub σου
+    const badThings = [
+      '163dd8bf-386c-4298-9e15-fd85c775fca5.jpeg',
+      '1865c4d2-c09d-4101-bda1-fa4bf81a9d93.jpeg',
+      '3ad0d122-0365-4145-8562-6fa641c97ba0.jpeg',
+      '4e6f8f78-eafc-4a17-91fc-dabdd64dfea0.jpeg',
+      '54a5138f-ed92-4e7e-9ef1-3e82aebd7cd7.jpeg',
+      '62145a22-d496-4ec2-98e7-16840dcdd092.jpeg',
+      '837eaa1f-93f5-4ab8-a7a7-95cfdc5f481a.jpeg',
+      'b1d5efa1-8423-4256-8e3c-43e81f3082e8.jpeg',
+      'eca63dd9-1965-4347-b9d7-b3e35ae0a8d4.jpeg',
+      'f99cd65c-369d-4264-aa7e-0bf04fcfd0f1.jpeg'
+    ];
 
-      // Προσθήκη του animation
-      box.classList.add('nuke-animation');
-      btn.style.display = 'none';
-      
-      // Εμφάνιση του μηνύματος μετά το animation
-      setTimeout(() => {
-        box.style.display = 'none';
-        msg.style.display = 'block';
-      }, 1000);
+    function randomTime(min, max) {
+      return Math.round(Math.random() * (max - min) + min);
     }
-  </script>
 
+    function randomHole(holes) {
+      const idx = Math.floor(Math.random() * holes.length);
+      const hole = holes[idx];
+      if (hole === lastHole) return randomHole(holes);
+      lastHole = hole;
+      return hole;
+    }
+
+    function popUp() {
+      const time = randomTime(600, 1100);
+      const hole = randomHole(holes);
+      const enemyImg = badThings[Math.floor(Math.random() * badThings.length)];
+      
+      hole.innerHTML = `<img src="${enemyImg}" class="target-img" draggable="false">`;
+      
+      popTimer = setTimeout(() => {
+        hole.innerHTML = '';
+        if (!timeUp) popUp();
+      }, time);
+    }
+
+    function startGame() {
+      scoreBoard.innerHTML = 'Σκορ: <span id="score">0</span>';
+      score = 0;
+      timeUp = false;
+      startBtn.style.display = 'none';
+      holes.forEach(hole => hole.innerHTML = '');
+      popUp();
+      
+      // Το παιχνίδι κρατάει 15 δευτερόλεπτα
+      setTimeout(() => {
+        timeUp = true;
+        clearTimeout(popTimer);
+        holes.forEach(hole => hole.innerHTML = '');
+        scoreBoard.innerHTML = `Τέλος! Βαρέσαμε ${score} φάτσες 💥`;
+        startBtn.style.display = 'inline-block';
+        startBtn.innerText = 'Ξανά';
+      }, 15000);
+    }
+
+    function whack(e) {
+      if (!e.isTrusted) return; // Προστασία από fake clicks
+      if (this.innerHTML !== '' && this.innerHTML !== '💥') {
+        score++;
+        document.getElementById('score').textContent = score;
+        this.innerHTML = '💥';
+        
+        // Καθαρίζει την έκρηξη γρήγορα
+        setTimeout(() => {
+          if(this.innerHTML === '💥') this.innerHTML = '';
+        }, 300);
+      }
+    }
+
+    // Για να παίζει και σε κινητό (touch) και σε υπολογιστή (click)
+    holes.forEach(hole => {
+      hole.addEventListener('mousedown', whack);
+      hole.addEventListener('touchstart', whack, {passive: true});
+    });
+  </script>
 </body>
 </html>
