@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HELL NAHHHHHHHHH</title>
+  <title>Εξολοθρευτής - Βγάλε το άχτι σου</title>
   <style>
     body {
       background-color: #2b2b36;
@@ -31,7 +31,7 @@
     }
 
     #scoreBoard { 
-      font-size: 2em; 
+      font-size: 1.8em; 
       font-weight: bold;
       color: #ffd700;
       text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
@@ -93,9 +93,16 @@
       pointer-events: none;
       display: none;
     }
+    
+    .button-container {
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
 
     #startBtn {
-      margin-top: 50px;
       padding: 15px 40px;
       font-size: 1.5em;
       background: linear-gradient(to bottom, #ff4c4c, #cc0000);
@@ -112,12 +119,33 @@
       transform: translateY(6px);
       box-shadow: 0 0px 0 #660000;
     }
+    
+    /* Το κουμπί δώρο που την πάει στο Spotify */
+    #giftBtn {
+      display: none; /* Αρχικά κρυμμένο */
+      padding: 15px 40px;
+      font-size: 1.5em;
+      background: linear-gradient(to bottom, #1db954, #1ed760);
+      color: white;
+      text-decoration: none;
+      border: 3px solid #14833b;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 6px 0 #14833b;
+      transition: all 0.1s;
+    }
+
+    #giftBtn:active {
+      transform: translateY(6px);
+      box-shadow: 0 0px 0 #14833b;
+    }
   </style>
 </head>
 <body>
 
-  <h1>ΕΣΥΟΥΥΥΥΥΥΥΥΥΥΥΥΥΥΥΥΥΥΥ ΕΙΣΑΙΙΙΙΙΙΙΙ</h1>
-  <p>Εχεις ΑΚΡΙΒΩΣ 15 δευτερολεπτα</p>
+  <h1>Η Τελευταια Σταγονα 🩸</h1>
+  <p>Ανέβασε την ένταση, βάρα αλύπητα. 15 δευτερόλεπτα χαμού.</p>
   
   <div id="scoreBoard">Σκορ: <span id="score">0</span></div>
   
@@ -133,18 +161,23 @@
     <div class="hole" id="hole-8"><img src="" class="target-img"><div class="pow">💥</div></div>
   </div>
 
-  <button id="startBtn" onclick="ksekinaToPaignidi()">ΠΑΜΕ ΛΙΓΟ</button>
+  <div class="button-container">
+    <button id="startBtn" onclick="ksekinaToPaignidi()">ΠΑΜΕ ΛΙΓΟ</button>
+    <a id="giftBtn" href="https://open.spotify.com/track/6dS2RZa86FEIQxCMxASMe6?si=3c3cda5d034f44d7" target="_blank">ΠΑΤΑ ΜΕ 🎁</a>
+  </div>
 
   <script>
     const holes = document.querySelectorAll('.hole');
     const scoreDisplay = document.getElementById('score');
     const scoreBoard = document.getElementById('scoreBoard');
     const startBtn = document.getElementById('startBtn');
+    const giftBtn = document.getElementById('giftBtn');
     
     let lastHole;
     let timeIsUp = false;
     let currentScore = 0;
     let popTimer;
+    const SCORE_THRESHOLD = 10; // Πρέπει να χτυπήσει 10 για το δώρο
 
     const faces = [
       '163dd8bf-386c-4298-9e15-fd85c775fca5.jpeg',
@@ -174,7 +207,6 @@
     }
 
     function popFace() {
-      // Κάναμε το χρόνο εμφάνισης ~20% πιο αργό για να προλαβαίνει να βλέπει τις φάτσες
       const time = getRandomTime(600, 1200); 
       const hole = getRandomHole(holes);
       const randomFace = faces[Math.floor(Math.random() * faces.length)];
@@ -197,6 +229,7 @@
       currentScore = 0;
       timeIsUp = false;
       startBtn.style.display = 'none'; 
+      giftBtn.style.display = 'none'; // Κρύβουμε το δώρο στην αρχή κάθε γύρου
       
       popFace();
       
@@ -206,9 +239,17 @@
         
         holes.forEach(hole => hole.classList.remove('up'));
         
-        scoreBoard.innerHTML = `ΤΕΛΟΣ! Έπεσαν ${currentScore} σφαλιάρες 🥊`;
-        startBtn.style.display = 'inline-block';
-        startBtn.innerText = 'ΑΛΛΗ ΜΙΑ ΦΟΡΑ';
+        // Έλεγχος του Threshold (Στόχου)
+        if (currentScore < SCORE_THRESHOLD) {
+          scoreBoard.innerHTML = `ΤΕΛΟΣ: ${currentScore}. Ξαναπροσπάθησε, έχει δωράκι TRUST 🎁`;
+          startBtn.style.display = 'inline-block';
+          startBtn.innerText = 'ΞΑΝΑΠΑΙΞΕ';
+        } else {
+          scoreBoard.innerHTML = `Σκορ: ${currentScore}. Κέρδισες! Δες από κάτω 👇`;
+          startBtn.style.display = 'none'; // Προαιρετικά, κρύβουμε το ΞΑΝΑΠΑΙΞΕ για να πατήσει το δώρο
+          giftBtn.style.display = 'inline-block';
+        }
+        
       }, 15000);
     }
 
