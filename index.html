@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Εξολοθρευτής - Βγάλε το άχτι σου</title>
+  <title>HELL NAHHHHHHHHH</title>
   <style>
-    /* Βάλαμε λίγο πιο "βρώμικο" background */
     body {
       background-color: #2b2b36;
       background-image: radial-gradient(#3a3a48 1px, transparent 1px);
@@ -31,7 +30,6 @@
       margin-bottom: 30px;
     }
 
-    /* Ο πίνακας του σκορ */
     #scoreBoard { 
       font-size: 2em; 
       font-weight: bold;
@@ -41,59 +39,51 @@
       height: 40px;
     }
 
-    /* ΕΔΩ ΓΙΝΕΤΑΙ ΤΟ 3D ΜΑΓΙΚΟ */
     .game-board {
       display: grid;
       grid-template-columns: repeat(3, 110px);
       gap: 20px;
       justify-content: center;
       margin: 0 auto;
-      /* Αυτά τα δύο κάνουν το ταμπλό να γέρνει προς τα πίσω */
       transform: perspective(600px) rotateX(25deg);
       transform-style: preserve-3d;
     }
 
-    /* Οι τρύπες έχουν βάθος τώρα */
     .hole {
       width: 110px;
       height: 110px;
       background-color: #0a0a0f;
       border-radius: 50%;
-      /* Το inset shadow δημιουργεί την ψευδαίσθηση της μαύρης τρύπας */
       box-shadow: 
         inset 0 15px 25px rgba(0, 0, 0, 0.9), 
         inset 0 -5px 10px rgba(255, 255, 255, 0.1),
         0 5px 0 #1a1a24; 
       position: relative;
-      overflow: hidden; /* Κρύβει ό,τι πάει να βγει έξω από τον κύκλο */
+      overflow: hidden; 
       cursor: crosshair;
     }
 
-    /* Το εφέ όταν βαράς την τρύπα */
     .hole:active { 
       background-color: #3d0000; 
       box-shadow: inset 0 20px 30px rgba(0, 0, 0, 0.9);
     }
 
-    /* Η φάτσα που πετάγεται */
     .target-img {
       width: 90%;
       height: 90%;
       object-fit: cover;
-      border-radius: 50%; /* Τις κάνουμε κάπως στρογγυλές να δένουν */
+      border-radius: 50%; 
       position: absolute;
-      bottom: -100%; /* Ξεκινάει κρυμμένη κάτω από την τρύπα */
+      bottom: -100%; 
       left: 5%;
-      transition: bottom 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy εφέ */
-      pointer-events: none; /* Το κλικ πάει στην τρύπα, όχι στην εικόνα */
+      transition: bottom 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+      pointer-events: none; 
     }
 
-    /* Όταν η φάτσα ανεβαίνει */
     .hole.up .target-img {
       bottom: 5%; 
     }
 
-    /* Το εφέ της σφαλιάρας (έκρηξη) */
     .pow {
       position: absolute;
       top: 50%;
@@ -126,13 +116,12 @@
 </head>
 <body>
 
-  <h1>Η Τελευταια Σταγονα 🩸</h1>
-  <p>Ανέβασε την ένταση, βάρα αλύπητα. 15 δευτερόλεπτα χαμού.</p>
+  <h1>ΕΣΥΟΥΥΥΥΥΥΥΥΥΥΥΥΥΥΥΥΥΥΥ ΕΙΣΑΙΙΙΙΙΙΙΙ</h1>
+  <p>Εχεις ΑΚΡΙΒΩΣ 15 δευτερολεπτα</p>
   
   <div id="scoreBoard">Σκορ: <span id="score">0</span></div>
   
   <div class="game-board">
-    <!-- Φτιάχνουμε τις τρύπες με τα placeholders τους -->
     <div class="hole" id="hole-0"><img src="" class="target-img"><div class="pow">💥</div></div>
     <div class="hole" id="hole-1"><img src="" class="target-img"><div class="pow">💥</div></div>
     <div class="hole" id="hole-2"><img src="" class="target-img"><div class="pow">💥</div></div>
@@ -147,7 +136,6 @@
   <button id="startBtn" onclick="ksekinaToPaignidi()">ΠΑΜΕ ΛΙΓΟ</button>
 
   <script>
-    // Μαζεύουμε τα στοιχεία από το DOM
     const holes = document.querySelectorAll('.hole');
     const scoreDisplay = document.getElementById('score');
     const scoreBoard = document.getElementById('scoreBoard');
@@ -158,7 +146,6 @@
     let currentScore = 0;
     let popTimer;
 
-    // Οι δικές σου φάτσες/εικόνες 
     const faces = [
       '163dd8bf-386c-4298-9e15-fd85c775fca5.jpeg',
       '1865c4d2-c09d-4101-bda1-fa4bf81a9d93.jpeg',
@@ -172,12 +159,10 @@
       'f99cd65c-369d-4264-aa7e-0bf04fcfd0f1.jpeg'
     ];
 
-    // Συνάρτηση για τυχαίο χρόνο εμφάνισης (όσο πιο μικροί αριθμοί τόσο πιο δύσκολο)
     function getRandomTime(min, max) {
       return Math.round(Math.random() * (max - min) + min);
     }
 
-    // Διαλέγει τυχαία τρύπα, αλλά ποτέ την ίδια 2 φορές σερί
     function getRandomHole(holes) {
       const idx = Math.floor(Math.random() * holes.length);
       const hole = holes[idx];
@@ -188,42 +173,37 @@
       return hole;
     }
 
-    // Η καρδιά του παιχνιδιού: πετάει τις φάτσες
     function popFace() {
-      const time = getRandomTime(500, 1000);
+      // Κάναμε το χρόνο εμφάνισης ~20% πιο αργό για να προλαβαίνει να βλέπει τις φάτσες
+      const time = getRandomTime(600, 1200); 
       const hole = getRandomHole(holes);
       const randomFace = faces[Math.floor(Math.random() * faces.length)];
       
-      // Φορτώνουμε την εικόνα
       const imgTag = hole.querySelector('.target-img');
       imgTag.src = randomFace;
       
-      // Την πετάμε πάνω (το CSS κάνει το animation)
       hole.classList.add('up');
       
       popTimer = setTimeout(() => {
-        hole.classList.remove('up'); // Την ξανακρύβουμε
+        hole.classList.remove('up'); 
         if (!timeIsUp) {
-          popFace(); // Συνεχίζουμε τη λούπα
+          popFace(); 
         }
       }, time);
     }
 
-    // Το κουμπί της έναρξης
     function ksekinaToPaignidi() {
       scoreBoard.innerHTML = 'Σκορ: <span id="score">0</span>';
       currentScore = 0;
       timeIsUp = false;
-      startBtn.style.display = 'none'; // Κρύβουμε το κουμπί όσο παίζει
+      startBtn.style.display = 'none'; 
       
       popFace();
       
-      // Μετά από 15 δευτερόλεπτα, το κλείνουμε
       setTimeout(() => {
         timeIsUp = true;
         clearTimeout(popTimer);
         
-        // Κρύβουμε όλες τις φάτσες που έμειναν πάνω
         holes.forEach(hole => hole.classList.remove('up'));
         
         scoreBoard.innerHTML = `ΤΕΛΟΣ! Έπεσαν ${currentScore} σφαλιάρες 🥊`;
@@ -232,19 +212,15 @@
       }, 15000);
     }
 
-    // Όταν βαράει την τρύπα
     function hitFace(e) {
-      if (!e.isTrusted) return; // Cheater alert (αν το κάνει με script)
+      if (!e.isTrusted) return; 
       
-      // Αν η τρύπα είναι "up", σημαίνει ότι έχει φάτσα να χτυπήσει
       if (this.classList.contains('up')) {
         currentScore++;
         document.getElementById('score').textContent = currentScore;
         
-        // Κρύβουμε τη φάτσα κατευθείαν (χτυπήθηκε)
         this.classList.remove('up');
         
-        // Δείχνουμε το εφέ της έκρηξης για λίγο
         const powEffect = this.querySelector('.pow');
         powEffect.style.display = 'block';
         setTimeout(() => {
@@ -253,7 +229,6 @@
       }
     }
 
-    // Βάζουμε listeners για κλικ (PC) και touch (Κινητά)
     holes.forEach(hole => {
       hole.addEventListener('mousedown', hitFace);
       hole.addEventListener('touchstart', hitFace, {passive: true});
