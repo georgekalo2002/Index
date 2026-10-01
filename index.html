@@ -20,6 +20,8 @@
             width: 100vw; height: 100dvh;
             background-color: #000;
             overflow: hidden;
+            padding-bottom: 110px; /* Δημιουργεί μαύρο χώρο αποκλειστικά για τα κουμπιά */
+            box-sizing: border-box;
         }
         canvas {
             display: block;
@@ -53,7 +55,7 @@
         }
         .btn:active { transform: translateY(5px); box-shadow: 0 0 0 #5e35b1; }
         #touch-controls {
-            position: absolute; bottom: 50px; left: 0; width: 100%;
+            position: absolute; bottom: 20px; left: 0; width: 100%; /* Τα κουμπιά μπαίνουν μέσα στον μαύρο χώρο */
             padding: 0 40px; box-sizing: border-box;
             display: flex; justify-content: space-between;
             pointer-events: none; z-index: 10;
@@ -151,7 +153,10 @@
             #game-container { display: none; }
         }
 
-        @media (hover: hover) and (pointer: fine) { #touch-controls { display: none; } }
+        @media (hover: hover) and (pointer: fine) { 
+            #touch-controls { display: none; } 
+            #game-container { padding-bottom: 0; } /* Στον υπολογιστή το παιχνίδι πιάνει όλη την οθόνη */
+        }
     </style>
 </head>
 <body>
@@ -213,9 +218,10 @@
         const hudHp = document.getElementById('hud-hp');
 
         function resizeCanvas() {
-            // Κρατάμε το εσωτερικό ύψος στα 600 (15 πλακίδια * 40px)
-            // Προσαρμόζουμε το πλάτος ώστε να γεμίζει την οθόνη του κινητού (aspect ratio)
-            const aspect = window.innerWidth / window.innerHeight;
+            // Υπολογίζουμε την αναλογία (aspect ratio) με βάση το ΠΡΑΓΜΑΤΙΚΟ μέγεθος του καμβά, πάνω από τα κουμπιά
+            const cw = canvas.clientWidth || window.innerWidth;
+            const ch = canvas.clientHeight || window.innerHeight;
+            const aspect = cw / ch;
             canvas.width = Math.floor(600 * aspect);
             canvas.height = 600;
         }
