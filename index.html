@@ -808,16 +808,35 @@
             constructor(x, y) {
                 super(x, y, 60, 60);
                 this.hp = 3;
-                this.vx = -1;
+                this.vx = 0; // Η αρχική ταχύτητα τώρα ελέγχεται δυναμικά
                 this.jumpTimer = 100;
                 this.invulnTimer = 0;
             }
             update() {
                 if(this.invulnTimer > 0) this.invulnTimer--;
-                let oldX = this.x;
-                this.updatePhysics();
-                if (this.x === oldX) this.vx *= -1;
                 
+                // Αργή παρακολούθηση της Λουκίας
+                if (player && !player.dead) {
+                    let speed = 0.6; // Πόσο αργά/γρήγορα θα την κυνηγάει
+                    let centerX = this.x + this.w / 2;
+                    let playerCenterX = player.x + player.w / 2;
+                    
+                    if (playerCenterX < centerX - 10) {
+                        this.vx = -speed; // Πάει αριστερά
+                    } else if (playerCenterX > centerX + 10) {
+                        this.vx = speed;  // Πάει δεξιά
+                    } else {
+                        this.vx = 0;
+                    }
+                }
+
+                this.updatePhysics();
+                
+                // Προστασία για να μην βγει ποτέ εκτός της οθόνης/πίστας
+                if (this.x < 0) this.x = 0;
+                if (this.x + this.w > mapWidth * TS) this.x = mapWidth * TS - this.w;
+                
+                // Συνεχίζει να χοροπηδάει
                 this.jumpTimer--;
                 if(this.jumpTimer <= 0 && this.onGround) {
                     this.vy = -12;
