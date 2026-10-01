@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Η Περιπέτεια της Λουκίας</title>
     <style>
         body {
@@ -17,12 +17,9 @@
         }
         #game-container {
             position: relative;
-            width: 100vw; height: 75vw;
-            max-width: 133.33vh; max-height: 100vh;
-            aspect-ratio: 4 / 3;
+            width: 100vw; height: 100vh;
             background-color: #000;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
         canvas {
             display: block;
@@ -56,23 +53,24 @@
         }
         .btn:active { transform: translateY(5px); box-shadow: 0 0 0 #5e35b1; }
         #touch-controls {
-            position: absolute; bottom: 5%; left: 0; width: 100%;
-            padding: 0 5%; box-sizing: border-box;
+            position: absolute; bottom: 20px; left: 0; width: 100%;
+            padding: 0 40px; box-sizing: border-box;
             display: flex; justify-content: space-between;
             pointer-events: none; z-index: 10;
         }
-        .touch-group { display: flex; gap: 15px; }
+        .touch-group { display: flex; gap: 20px; }
         .touch-btn {
             pointer-events: auto;
-            background: rgba(255, 255, 255, 0.3); border: 2px solid rgba(255,255,255,0.8);
-            color: white; font-size: 2rem;
-            width: 65px; height: 65px; border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(255,255,255,0.8);
+            color: white; font-size: 2.5rem;
+            width: 75px; height: 75px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             user-select: none; -webkit-user-select: none;
+            backdrop-filter: blur(4px);
         }
         .touch-btn:active { background: rgba(255, 255, 255, 0.7); transform: scale(0.9); }
-        .btn-action { background: rgba(255, 50, 50, 0.4); border-color: #ff9a9e; }
-        .btn-action:active { background: rgba(255, 50, 50, 0.8); }
+        .btn-action { background: rgba(255, 50, 50, 0.5); border-color: #ff9a9e; }
+        .btn-action:active { background: rgba(255, 50, 50, 0.9); }
         #hud {
             position: absolute; top: 15px; left: 0; width: 100%;
             display: flex; justify-content: center; gap: 30px;
@@ -131,10 +129,37 @@
             display: flex; align-items: center; justify-content: center;
         }
         .level-btn:active { background: #9b59b6; transform: scale(0.95); }
+        
+        #portrait-warning {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; color: #fff; z-index: 9999;
+            flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; font-size: 1.5rem; padding: 20px; box-sizing: border-box;
+        }
+        #portrait-warning svg { 
+            width: 80px; height: 80px; margin-bottom: 20px; fill: white; 
+            animation: rotatePhone 2s infinite ease-in-out; 
+        }
+        @keyframes rotatePhone {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(-90deg); }
+            100% { transform: rotate(-90deg); }
+        }
+        @media screen and (orientation: portrait) {
+            #portrait-warning { display: flex; }
+            #game-container { display: none; }
+        }
+
         @media (hover: hover) and (pointer: fine) { #touch-controls { display: none; } }
     </style>
 </head>
 <body>
+    <div id="portrait-warning">
+        <svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+        <p>Παρακαλώ γυρίστε το κινητό σας οριζόντια για να παίξετε!</p>
+    </div>
+
     <div id="game-container">
         <canvas id="gameCanvas" width="800" height="600"></canvas>
         
@@ -187,11 +212,23 @@
         const hudLevel = document.getElementById('hud-level');
         const hudHp = document.getElementById('hud-hp');
 
+        function resizeCanvas() {
+            // Κρατάμε το εσωτερικό ύψος στα 600 (15 πλακίδια * 40px)
+            // Προσαρμόζουμε το πλάτος ώστε να γεμίζει την οθόνη του κινητού (aspect ratio)
+            const aspect = window.innerWidth / window.innerHeight;
+            canvas.width = Math.floor(600 * aspect);
+            canvas.height = 600;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas(); // Αρχική κλήση
+
         // Load Assets
         const charsImg = new Image();
         charsImg.src = 'characters.png';
         const bgImg = new Image();
         bgImg.src = 'preview.jpg';
+        const dogImg = new Image();
+        dogImg.src = '54a5138f-ed92-4e7e-9ef1-3e82aebd7cd7.jpeg';
 
         // Sprite Sheet Data (Assuming 8x8 grid for characters.png based on visual)
         const SPRITE_COLS = 8;
@@ -234,6 +271,7 @@
             if(!el) return;
             el.addEventListener('touchstart', (e) => { e.preventDefault(); keys[key] = true; });
             el.addEventListener('touchend', (e) => { e.preventDefault(); keys[key] = false; });
+            el.addEventListener('touchcancel', (e) => { e.preventDefault(); keys[key] = false; });
             el.addEventListener('mousedown', (e) => { e.preventDefault(); keys[key] = true; });
             el.addEventListener('mouseup', (e) => { e.preventDefault(); keys[key] = false; });
             el.addEventListener('mouseleave', (e) => { e.preventDefault(); keys[key] = false; });
@@ -1092,8 +1130,9 @@
                         ctx.fillStyle = '#757575'; ctx.fillRect(tx, ty, TS, TS);
                         ctx.fillStyle = '#000'; ctx.fillRect(tx+5, ty+5, TS-10, TS-10);
                         // Draw Dog inside
-                        const dog = ["..BBBB..","..BWWBB.","..BWWBB.",".BBWBBBB",".BBBBBBB","..BB.BB."];
-                        drawPixelGrid(ctx, tx+4, ty+12, 32, 24, dog, {'B':'#000','W':'#fff'});
+                        if (dogImg.complete && dogImg.width > 0) {
+                            ctx.drawImage(dogImg, tx+5, ty+5, TS-10, TS-10);
+                        }
                         // Bars
                         ctx.fillStyle = '#9e9e9e'; 
                         ctx.fillRect(tx+10, ty, 4, TS); ctx.fillRect(tx+26, ty, 4, TS);
@@ -1157,8 +1196,9 @@
                 // Camera follow
                 if(player) {
                     let targetX = player.x - canvas.width / 2;
+                    let maxCameraX = Math.max(0, mapWidth * TS - canvas.width);
                     if (targetX < 0) targetX = 0;
-                    if (targetX > mapWidth * TS - canvas.width) targetX = mapWidth * TS - canvas.width;
+                    if (targetX > maxCameraX) targetX = maxCameraX;
                     cameraX += (targetX - cameraX) * 0.1;
                 }
             }
