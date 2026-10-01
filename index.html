@@ -20,7 +20,7 @@
             width: 100vw; height: 100dvh;
             background-color: #000;
             overflow: hidden;
-            padding-bottom: 110px; /* Δημιουργεί μαύρο χώρο αποκλειστικά για τα κουμπιά */
+            padding-bottom: 75px; /* ΜΕΙΩΘΗΚΕ στα 2/3 (από 110px) */
             box-sizing: border-box;
         }
         canvas {
@@ -38,6 +38,7 @@
             z-index: 20;
         }
         .hidden { opacity: 0; pointer-events: none !important; }
+        
         h1 {
             font-size: 8vw; margin-bottom: 10px;
             color: #fce473; text-shadow: 4px 4px 0px #9b59b6;
@@ -54,8 +55,9 @@
             margin: 5px;
         }
         .btn:active { transform: translateY(5px); box-shadow: 0 0 0 #5e35b1; }
+        
         #touch-controls {
-            position: absolute; bottom: 20px; left: 0; width: 100%; /* Τα κουμπιά μπαίνουν μέσα στον μαύρο χώρο */
+            position: absolute; bottom: 15px; left: 0; width: 100%; /* Προσαρμοσμένο στο κέντρο του μαύρου κενού */
             padding: 0 40px; box-sizing: border-box;
             display: flex; justify-content: space-between;
             pointer-events: none; z-index: 10;
@@ -64,8 +66,9 @@
         .touch-btn {
             pointer-events: auto;
             background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(255,255,255,0.8);
-            color: white; font-size: 2rem;
-            width: 60px; height: 60px; border-radius: 50%;
+            color: white; font-size: 1.5rem; /* ΜΙΚΡΥΝΑΝ ΣΤΑ 2/3 */
+            width: 45px; height: 45px; /* Από 60x60 σε 45x45 */
+            border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             user-select: none; -webkit-user-select: none;
             backdrop-filter: blur(4px);
@@ -73,6 +76,7 @@
         .touch-btn:active { background: rgba(255, 255, 255, 0.7); transform: scale(0.9); }
         .btn-action { background: rgba(255, 50, 50, 0.5); border-color: #ff9a9e; }
         .btn-action:active { background: rgba(255, 50, 50, 0.9); }
+        
         #hud {
             position: absolute; top: 15px; left: 0; width: 100%;
             display: flex; justify-content: center; gap: 30px;
@@ -80,54 +84,30 @@
             pointer-events: none; z-index: 5; font-weight: bold;
         }
         #restart-btn-hud {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            padding: 5px 10px;
-            font-size: 1rem;
-            background: rgba(255, 0, 0, 0.7);
-            border: 2px solid white;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            pointer-events: auto;
-            z-index: 10;
+            position: absolute; top: 10px; right: 15px;
+            padding: 5px 10px; font-size: 1rem; background: rgba(255, 0, 0, 0.7);
+            border: 2px solid white; color: white; border-radius: 5px;
+            cursor: pointer; pointer-events: auto; z-index: 10;
         }
         #menu-btn-hud {
-            position: absolute;
-            top: 10px;
-            left: 15px;
-            padding: 5px 10px;
-            font-size: 1rem;
-            background: #9b59b6;
-            border: 2px solid white;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            pointer-events: auto;
-            z-index: 10;
+            position: absolute; top: 10px; left: 15px;
+            padding: 5px 10px; font-size: 1rem; background: #9b59b6;
+            border: 2px solid white; color: white; border-radius: 5px;
+            cursor: pointer; pointer-events: auto; z-index: 10;
         }
         #level-select-layer {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            background: rgba(0, 0, 0, 0.9);
-            transition: opacity 0.3s;
-            z-index: 25;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: rgba(0, 0, 0, 0.9); transition: opacity 0.3s; z-index: 25;
         }
         .level-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-            pointer-events: auto;
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px;
+            margin-top: 20px; pointer-events: auto;
         }
         .level-btn {
-            background: #5e35b1; border: 2px solid #fff;
-            padding: 10px; font-size: 1.5rem; font-weight: bold;
-            color: #fff; cursor: pointer; border-radius: 10px;
-            text-align: center; width: 55px; height: 55px;
+            background: #5e35b1; border: 2px solid #fff; padding: 10px; 
+            font-size: 1.5rem; font-weight: bold; color: #fff; cursor: pointer; 
+            border-radius: 10px; text-align: center; width: 55px; height: 55px;
             display: flex; align-items: center; justify-content: center;
         }
         .level-btn:active { background: #9b59b6; transform: scale(0.95); }
@@ -218,7 +198,6 @@
         const hudHp = document.getElementById('hud-hp');
 
         function resizeCanvas() {
-            // Υπολογίζουμε την αναλογία (aspect ratio) με βάση το ΠΡΑΓΜΑΤΙΚΟ μέγεθος του καμβά, πάνω από τα κουμπιά
             const cw = canvas.clientWidth || window.innerWidth;
             const ch = canvas.clientHeight || window.innerHeight;
             const aspect = cw / ch;
@@ -226,9 +205,8 @@
             canvas.height = 600;
         }
         window.addEventListener('resize', resizeCanvas);
-        resizeCanvas(); // Αρχική κλήση
+        resizeCanvas();
 
-        // Load Assets
         const charsImg = new Image();
         charsImg.src = 'characters.png';
         const bgImg = new Image();
@@ -236,7 +214,23 @@
         const dogImg = new Image();
         dogImg.src = '54a5138f-ed92-4e7e-9ef1-3e82aebd7cd7.jpeg';
 
-        // Sprite Sheet Data (Assuming 8x8 grid for characters.png based on visual)
+        // O πίνακας με τις φωτογραφίες για τα σημαιάκια!
+        const flagImages = [
+            '3ad0d122-0365-4145-8562-6fa641c97ba0.jpeg',
+            '163dd8bf-386c-4298-9e15-fd85c775fca5.jpeg',
+            '1865c4d2-c09d-4101-bda1-fa4bf81a9d93.jpeg',
+            'download.jpeg',
+            'b2a2f0fcc50900bfa23cd4de01066969.jpg',
+            'f99cd65c-369d-4264-aa7e-0bf04fcfd0f1.jpeg',
+            'download (1).jpeg',
+            'download (2).jpeg',
+            'download (3).jpeg'
+        ].map(src => {
+            let img = new Image();
+            img.src = src;
+            return img;
+        });
+
         const SPRITE_COLS = 8;
         const SPRITE_ROWS = 8;
         let spriteW = 0;
@@ -247,30 +241,27 @@
             spriteH = charsImg.height / SPRITE_ROWS;
         };
 
-        // Game Constants
-        const TS = 40; // Tile Size
+        const TS = 40; 
         const GRAVITY = 0.5;
         const FRICTION = 0.85;
         const MAX_SPEED = 6;
         const JUMP_FORCE = -13.5; 
         
-        // Game State
-        let gameState = 'MENU'; // MENU, PLAYING, DEAD, WIN
+        let gameState = 'MENU'; 
         let currentLevelIndex = 0;
         let cameraX = 0;
         let frameCount = 0;
         let keys = {};
 
-        // Arrays for dynamic entities
         let map = [];
         let mapWidth = 0;
-        let mapHeight = 15; // 600 / 40
+        let mapHeight = 15;
         let entities = [];
         let particles = [];
         let fireballs = [];
         
         window.onload = () => {
-             currentLevelIndex = 0; // Διασφαλίζουμε ότι ξεκινάει πάντα από το 1ο επίπεδο
+             currentLevelIndex = 0; 
              gameState = 'MENU';
         };
 
@@ -294,24 +285,18 @@
 
         startBtn.addEventListener('click', () => {
             if (gameState === 'MENU' || gameState === 'WIN') {
-                currentLevelIndex = 0; // Επιβάλλουμε το παιχνίδι να ξεκινήσει από την 1η πίστα
+                currentLevelIndex = 0; 
                 startGame();
             } else if (gameState === 'DEAD') {
-                startGame(); // Restart same level
+                startGame(); 
             }
         });
 
-        restartBtnMenu.addEventListener('click', () => {
-            startGame();
-        });
-
+        restartBtnMenu.addEventListener('click', () => { startGame(); });
         restartBtnHud.addEventListener('click', () => {
-            if (gameState === 'PLAYING') {
-                loadLevel(currentLevelIndex);
-            }
+            if (gameState === 'PLAYING') loadLevel(currentLevelIndex);
         });
 
-        // Δημιουργία κουμπιών επιλογής επιπέδου
         for (let i = 0; i < 10; i++) {
             let btn = document.createElement('button');
             btn.className = 'level-btn';
@@ -325,26 +310,16 @@
             levelGrid.appendChild(btn);
         }
 
-        // Άνοιγμα Μενού - Βάζει το παιχνίδι σε παύση
         menuBtnHud.addEventListener('click', () => {
             if (gameState === 'PLAYING') gameState = 'MENU_PAUSED';
             levelSelectLayer.classList.remove('hidden');
         });
 
-        // Κλείσιμο Μενού - Συνεχίζει το παιχνίδι
         closeMenuBtn.addEventListener('click', () => {
             levelSelectLayer.classList.add('hidden');
-            if (gameState === 'MENU_PAUSED') {
-                gameState = 'PLAYING';
-            }
+            if (gameState === 'MENU_PAUSED') gameState = 'PLAYING';
         });
 
-        /*
-            . = Empty       G = Ground (Grass)   D = Dirt       B = Brick       
-            ? = Powerup     * = Coin Block       P = Pipe Top   p = Pipe Body
-            E = Enemy       W = Win Flag         C = Cage       O = Boss
-            F = Floor Lava
-        */
         const levels = [
             // Level 1: Intro - Εύκολα άλματα
             [
@@ -364,7 +339,7 @@
                 "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
                 "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
             ],
-            // Level 2: Jumping over pits - Σωστές αποστάσεις
+            // Level 2: Jumping over pits
             [
                 "........................................",
                 "........................................",
@@ -382,7 +357,7 @@
                 "DDDDD....DDDDDD....DDDDD......DDDDDDDDDD",
                 "DDDDD....DDDDDD....DDDDD......DDDDDDDDDD"
             ],
-            // Level 3: Verticality - Διορθωμένος τελευταίος σωλήνας!
+            // Level 3: Pipes (Fixed heights)
             [
                 "..................................................",
                 "..................................................",
@@ -392,15 +367,15 @@
                 "..................................................",
                 "..................................................",
                 ".......................................P..........",
-                ".............P.........................p..........",
-                ".........?B..p............P....E.......p..........",
-                ".......E.....p....?.......p..GGGGG.....p........W.",
-                "GGGGGGGGGGGGGGGG...GGGGGGGGGGDDDDDGGGGGGGGGGGGGGGG",
-                "DDDDDDDDDDDDDDDD...DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-                "DDDDDDDDDDDDDDDD...DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-                "DDDDDDDDDDDDDDDD...DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
+                ".......................................p..........",
+                ".........?B...............P....E.......p..........",
+                ".......E..........?.......p..GGGGG.....p........W.",
+                "GGGGGGGGGGGG...GGGGGGGGGGGGGGDDDDDGGGGGGGGGGGGGGGG",
+                "DDDDDDDDDDDD...DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+                "DDDDDDDDDDDD...DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+                "DDDDDDDDDDDD...DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
             ],
-            // Level 4: Sunset enemies - Όλα προσβάσιμα
+            // Level 4: Sunset enemies
             [
                 "..................................................",
                 "..................................................",
@@ -418,7 +393,7 @@
                 "DDDDDD...DDDDDDDD......DDDDDDDDDDDDDDDDDDDDD..DDDD",
                 "DDDDDD...DDDDDDDD......DDDDDDDDDDDDDDDDDDDDD..DDDD"
             ],
-            // Level 5: Cave entrance - Χαμήλωσε ο 1ος τοίχος
+            // Level 5: Cave entrance
             [
                 "..................................................",
                 "..................................................",
@@ -436,7 +411,7 @@
                 "DDDDDDDDDDD...D...........DDDDDDDDDDDDDDDDDDDDDDDD",
                 "DDDDDDDDDDD...D...........DDDDDDDDDDDDDDDDDDDDDDDD"
             ],
-            // Level 6: Deep Cave - Σκαλοπατάκια για να περάσεις τον τοίχο!
+            // Level 6: Deep Cave
             [
                 "..................................................",
                 "..................................................",
@@ -454,7 +429,7 @@
                 "DDDDDDDDDDDDDDDD.......DDDDDD................DDDDD",
                 "DDDDDDDDDDDDDDDD.......DDDDDD................DDDDD"
             ],
-            // Level 7: More jumps - Ισορροπημένα ύψη
+            // Level 7: More jumps
             [
                 "..................................................",
                 "..................................................",
@@ -472,7 +447,7 @@
                 "DDDDDDDDD...DDDDDD.........DDDDD...DDDDDDDDDDDDDDD",
                 "DDDDDDDDD...DDDDDD.........DDDDD...DDDDDDDDDDDDDDD"
             ],
-            // Level 8: Lava - Ασφαλείς και υπολογισμένες αποστάσεις
+            // Level 8: Lava
             [
                 "..................................................",
                 "..................................................",
@@ -490,7 +465,7 @@
                 "DDDDFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDDDD",
                 "DDDDFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDDDD"
             ],
-            // Level 9: Castle Approach - Κανένα απρόσιτο αντικείμενο
+            // Level 9: Castle Approach
             [
                 "..................................................",
                 "..................................................",
@@ -508,7 +483,7 @@
                 "DDDDDDDDDDDDFFFFDFFFFFFFFFDDDDDDDFFFDDDDDDDDDDDDDD",
                 "DDDDDDDDDDDDFFFFDFFFFFFFFFDDDDDDDFFFDDDDDDDDDDDDDD"
             ],
-            // Level 10: Boss Room - Κουτί δύναμης προσβάσιμο
+            // Level 10: Boss Room
             [
                 "........................................",
                 "........................................",
@@ -529,16 +504,16 @@
         ];
 
         const themes = [
-            { bgTop: '#87CEEB', bgBot: '#e0f6ff', ground: '#4CAF50', dirt: '#795548' }, // Day
-            { bgTop: '#87CEEB', bgBot: '#e0f6ff', ground: '#4CAF50', dirt: '#795548' }, // Day 2
-            { bgTop: '#ff9a9e', bgBot: '#fecfef', ground: '#8BC34A', dirt: '#5D4037' }, // Sunset
-            { bgTop: '#ff7b54', bgBot: '#ffd56b', ground: '#8BC34A', dirt: '#5D4037' }, // Sunset 2
-            { bgTop: '#2b5876', bgBot: '#4e4376', ground: '#607D8B', dirt: '#3E2723' }, // Twilight Cave
-            { bgTop: '#1a1a2e', bgBot: '#16213e', ground: '#4a4e69', dirt: '#22223b' }, // Deep Cave
-            { bgTop: '#0f0c29', bgBot: '#302b63', ground: '#4a4e69', dirt: '#22223b' }, // Night
-            { bgTop: '#200000', bgBot: '#5a0000', ground: '#333333', dirt: '#111111' }, // Lava
-            { bgTop: '#111', bgBot: '#333', ground: '#555', dirt: '#222' },             // Castle
-            { bgTop: '#3a0000', bgBot: '#000000', ground: '#444', dirt: '#111' }        // Boss Room
+            { bgTop: '#87CEEB', bgBot: '#e0f6ff', ground: '#4CAF50', dirt: '#795548' }, 
+            { bgTop: '#87CEEB', bgBot: '#e0f6ff', ground: '#4CAF50', dirt: '#795548' }, 
+            { bgTop: '#ff9a9e', bgBot: '#fecfef', ground: '#8BC34A', dirt: '#5D4037' }, 
+            { bgTop: '#ff7b54', bgBot: '#ffd56b', ground: '#8BC34A', dirt: '#5D4037' }, 
+            { bgTop: '#2b5876', bgBot: '#4e4376', ground: '#607D8B', dirt: '#3E2723' }, 
+            { bgTop: '#1a1a2e', bgBot: '#16213e', ground: '#4a4e69', dirt: '#22223b' }, 
+            { bgTop: '#0f0c29', bgBot: '#302b63', ground: '#4a4e69', dirt: '#22223b' }, 
+            { bgTop: '#200000', bgBot: '#5a0000', ground: '#333333', dirt: '#111111' }, 
+            { bgTop: '#111', bgBot: '#333', ground: '#555', dirt: '#222' },             
+            { bgTop: '#3a0000', bgBot: '#000000', ground: '#444', dirt: '#111' }        
         ];
 
         function drawPixelGrid(ctx, x, y, w, h, gridStrArray, colorMap) {
@@ -576,7 +551,7 @@
                 this.onGround = false;
                 this.handleMapCollision('y');
 
-                if (this.y > mapHeight * TS) this.dead = true; // Fall off map
+                if (this.y > mapHeight * TS) this.dead = true;
             }
             handleMapCollision(axis) {
                 let leftTile = Math.floor(this.x / TS);
@@ -617,9 +592,9 @@
 
         class Player extends Entity {
             constructor(x, y) {
-                super(x, y, 30, 40); // Adjusted size for the sprite
+                super(x, y, 30, 40);
                 this.facingRight = true;
-                this.power = 0; // 0 = normal, 1 = super/fireball
+                this.power = 0; 
                 this.invulnTimer = 0;
                 this.shootCooldown = 0;
                 this.frameX = 0;
@@ -629,31 +604,23 @@
                 if(this.invulnTimer > 0) this.invulnTimer--;
                 if(this.shootCooldown > 0) this.shootCooldown--;
 
-                // Movement
                 let isMoving = false;
                 if ((keys['ArrowLeft'] || keys['KeyA']) && !keys['ArrowRight']) {
-                    this.vx -= 1;
-                    this.facingRight = false;
-                    isMoving = true;
+                    this.vx -= 1; this.facingRight = false; isMoving = true;
                 } else if ((keys['ArrowRight'] || keys['KeyD']) && !keys['ArrowLeft']) {
-                    this.vx += 1;
-                    this.facingRight = true;
-                    isMoving = true;
+                    this.vx += 1; this.facingRight = true; isMoving = true;
                 } else {
                     this.vx *= FRICTION;
                 }
                 
-                // Speed limit
                 if (this.vx > MAX_SPEED) this.vx = MAX_SPEED;
                 if (this.vx < -MAX_SPEED) this.vx = -MAX_SPEED;
 
-                // Jump
                 if ((keys['ArrowUp'] || keys['KeyW']) && this.onGround) {
                     this.vy = JUMP_FORCE;
                     this.onGround = false;
                 }
 
-                // Shoot - NOW REQUIRES POWER = 1
                 if (keys['Space'] && this.power === 1 && this.shootCooldown <= 0) {
                     fireballs.push(new Fireball(this.x + (this.facingRight?this.w:-10), this.y + 10, this.facingRight));
                     this.shootCooldown = 20;
@@ -661,23 +628,20 @@
 
                 this.updatePhysics();
 
-                // Animation logic
                 if (isMoving && this.onGround) {
                     this.animTimer++;
                     if (this.animTimer > 5) {
-                        this.frameX = (this.frameX + 1) % 4; // Assuming 4 walk frames
+                        this.frameX = (this.frameX + 1) % 4;
                         this.animTimer = 0;
                     }
                 } else if (!this.onGround) {
-                    this.frameX = 1; // Jump frame (usually one of the walk cycle frames)
+                    this.frameX = 1; 
                 } else {
-                    this.frameX = 0; // Idle frame
+                    this.frameX = 0; 
                 }
 
-                // Screen bounds
                 if (this.x < 0) { this.x = 0; this.vx = 0; }
                 
-                // Win check
                 let cx = Math.floor((this.x + this.w/2)/TS);
                 let cy = Math.floor((this.y + this.h/2)/TS);
                 if (cy >= 0 && cy < mapHeight && cx >= 0 && cx < mapWidth) {
@@ -685,7 +649,7 @@
                     if (map[cy][cx] === 'F' && this.invulnTimer <= 0) this.takeDamage();
                 }
 
-                if (this.y > mapHeight * TS) this.takeDamage(true); // Instant death pit
+                if (this.y > mapHeight * TS) this.takeDamage(true); 
             }
             takeDamage(instant = false) {
                 if (this.invulnTimer > 0 && !instant) return;
@@ -701,12 +665,11 @@
                 }
             }
             draw(ctx) {
-                if (this.invulnTimer > 0 && Math.floor(frameCount/5)%2 === 0) return; // Flicker
+                if (this.invulnTimer > 0 && Math.floor(frameCount/5)%2 === 0) return;
 
                 ctx.save();
                 ctx.translate(this.x, this.y);
                 
-                // Draw name tag
                 ctx.fillStyle = 'white';
                 ctx.font = '12px Arial';
                 ctx.textAlign = 'center';
@@ -717,68 +680,30 @@
                     ctx.translate(-this.w, 0);
                 }
 
-                // Pixel art design inspired by image_da3ce3.png but with Animal Print
-                const P = '#9c27b0'; // Purple Hair
-                const S = '#ffcc80'; // Skin
-                const B = '#000000'; // Eyes
-                const D = '#ffb300'; // Animal Print Base (Gold)
-                const X = '#4e342e'; // Animal Print Spots (Dark Brown)
-                const L = '#ff9800'; // Scarf/Accent (Orange from image)
+                const P = '#9c27b0'; const S = '#ffcc80'; const B = '#000000'; 
+                const D = '#ffb300'; const X = '#4e342e'; const L = '#ff9800'; 
                 
                 let sprite;
-                // Idle or Jump
                 if (!this.onGround) {
                     sprite = [
-                        "...PPPP...",
-                        ".PPPPPP...",
-                        ".PPSSSS...",
-                        ".P.SBBB...",
-                        "PP.SSSS...",
-                        "P...LL....",
-                        "...DXXD...",
-                        "...XDDX...",
-                        "...DXXD...",
-                        "...DDDD...",
-                        "....XX....",
-                        "....XX....",
-                        "....XX....",
-                        "....XX...."
+                        "...PPPP...", ".PPPPPP...", ".PPSSSS...", ".P.SBBB...",
+                        "PP.SSSS...", "P...LL....", "...DXXD...", "...XDDX...",
+                        "...DXXD...", "...DDDD...", "....XX....", "....XX....",
+                        "....XX....", "....XX...."
                     ];
                 } else if (this.frameX % 2 === 0) {
-                    // Walk Frame 1
                     sprite = [
-                        "...PPPP...",
-                        ".PPPPPP...",
-                        ".PPSSSS...",
-                        ".P.SBBB...",
-                        "PP.SSSS...",
-                        "P...LL....",
-                        "...DXXD...",
-                        "...XDDX...",
-                        "...DXXD...",
-                        "...DDDD...",
-                        "...XX.XX..",
-                        "...X...X..",
-                        "...X...X..",
-                        "...X...X.."
+                        "...PPPP...", ".PPPPPP...", ".PPSSSS...", ".P.SBBB...",
+                        "PP.SSSS...", "P...LL....", "...DXXD...", "...XDDX...",
+                        "...DXXD...", "...DDDD...", "...XX.XX..", "...X...X..",
+                        "...X...X..", "...X...X.."
                     ];
                 } else {
-                    // Walk Frame 2
                     sprite = [
-                        "...PPPP...",
-                        ".PPPPPP...",
-                        ".PPSSSS...",
-                        ".P.SBBB...",
-                        "PP.SSSS...",
-                        "P...LL....",
-                        "...DXXD...",
-                        "...XDDX...",
-                        "...DXXD...",
-                        "...DDDD...",
-                        "....XX....",
-                        "...XX.....",
-                        "...X......",
-                        "...X......"
+                        "...PPPP...", ".PPPPPP...", ".PPSSSS...", ".P.SBBB...",
+                        "PP.SSSS...", "P...LL....", "...DXXD...", "...XDDX...",
+                        "...DXXD...", "...DDDD...", "....XX....", "...XX.....",
+                        "...X......", "...X......"
                     ];
                 }
 
@@ -797,18 +722,12 @@
             update() {
                 let oldX = this.x;
                 this.updatePhysics();
-                if (this.x === oldX) this.vx *= -1; // Turn around on wall hit
+                if (this.x === oldX) this.vx *= -1; 
             }
             draw(ctx) {
                 const sprite = [
-                    "....RRRR....",
-                    "..RRRRRRRR..",
-                    ".RRRRWWWWWW.",
-                    ".RRRRWEWWEE.",
-                    "RRRRRRWWWWWW",
-                    "RRRRRRRRRRRR",
-                    "....SSSS....",
-                    "...KK..KK..."
+                    "....RRRR....", "..RRRRRRRR..", ".RRRRWWWWWW.", ".RRRRWEWWEE.",
+                    "RRRRRRWWWWWW", "RRRRRRRRRRRR", "....SSSS....", "...KK..KK..."
                 ];
                 const colors = {'R':'#d32f2f','W':'#fff','E':'#000','S':'#ffcc80','K':'#3e2723'};
                 drawPixelGrid(ctx, this.x, this.y, this.w, this.h, sprite, colors);
@@ -819,35 +738,28 @@
             constructor(x, y) {
                 super(x, y, 60, 60);
                 this.hp = 3;
-                this.vx = 0; // Η αρχική ταχύτητα τώρα ελέγχεται δυναμικά
+                this.vx = 0; 
                 this.jumpTimer = 100;
                 this.invulnTimer = 0;
             }
             update() {
                 if(this.invulnTimer > 0) this.invulnTimer--;
                 
-                // Αργή παρακολούθηση της Λουκίας
                 if (player && !player.dead) {
-                    let speed = 0.6; // Πόσο αργά/γρήγορα θα την κυνηγάει
+                    let speed = 0.6; 
                     let centerX = this.x + this.w / 2;
                     let playerCenterX = player.x + player.w / 2;
                     
-                    if (playerCenterX < centerX - 10) {
-                        this.vx = -speed; // Πάει αριστερά
-                    } else if (playerCenterX > centerX + 10) {
-                        this.vx = speed;  // Πάει δεξιά
-                    } else {
-                        this.vx = 0;
-                    }
+                    if (playerCenterX < centerX - 10) { this.vx = -speed; } 
+                    else if (playerCenterX > centerX + 10) { this.vx = speed; } 
+                    else { this.vx = 0; }
                 }
 
                 this.updatePhysics();
                 
-                // Προστασία για να μην βγει ποτέ εκτός της οθόνης/πίστας
                 if (this.x < 0) this.x = 0;
                 if (this.x + this.w > mapWidth * TS) this.x = mapWidth * TS - this.w;
                 
-                // Συνεχίζει να χοροπηδάει
                 this.jumpTimer--;
                 if(this.jumpTimer <= 0 && this.onGround) {
                     this.vy = -12;
@@ -860,7 +772,6 @@
                 this.invulnTimer = 40;
                 if (this.hp <= 0) {
                     this.dead = true;
-                    // Free the dog! Remove cage tiles.
                     for(let r=0; r<mapHeight; r++) {
                         for(let c=0; c<mapWidth; c++) {
                             if(map[r][c] === 'C') map[r][c] = '.';
@@ -875,20 +786,10 @@
                 ctx.translate(this.x, this.y);
                 if (this.vx > 0) { ctx.scale(-1, 1); ctx.translate(-this.w, 0); }
                 const sprite = [
-                    ".......GGGG.....",
-                    "......GGGGGG....",
-                    ".....GGWWWGGG...",
-                    "....GGGWEWGGG...",
-                    "....GGGGGGGG....",
-                    ".......GGG......",
-                    ".GGGGGGGGGGGGGG.",
-                    "GGGGYGGGGGGYGGGG",
-                    "GGGGYYYYYYYYGGGG",
-                    ".GGGGGGGGGGGGGG.",
-                    "..GG........GG..",
-                    "..GG........GG..",
-                    "..GG........GG..",
-                    ".KKK........KKK."
+                    ".......GGGG.....", "......GGGGGG....", ".....GGWWWGGG...", "....GGGWEWGGG...",
+                    "....GGGGGGGG....", ".......GGG......", ".GGGGGGGGGGGGGG.", "GGGGYGGGGGGYGGGG",
+                    "GGGGYYYYYYYYGGGG", ".GGGGGGGGGGGGGG.", "..GG........GG..", "..GG........GG..",
+                    "..GG........GG..", ".KKK........KKK."
                 ];
                 const colors = {'G':'#2e7d32','W':'#fff','E':'#f44336','Y':'#fbc02d','K':'#000'};
                 drawPixelGrid(ctx, 0, 0, this.w, this.h, sprite, colors);
@@ -899,22 +800,14 @@
         class Item extends Entity {
             constructor(x, y, type) {
                 super(x, y, 30, 30);
-                this.type = type; // 'flower'
+                this.type = type;
                 this.vy = -5;
             }
-            update() {
-                this.updatePhysics();
-            }
+            update() { this.updatePhysics(); }
             draw(ctx) {
                 const sprite = [
-                    "...RRRR...",
-                    "..RYYYYR..",
-                    ".RYYWWYYR.",
-                    ".RYYWWYYR.",
-                    "..RYYYYR..",
-                    "...RRRR...",
-                    "....GG....",
-                    "...GGGG..."
+                    "...RRRR...", "..RYYYYR..", ".RYYWWYYR.", ".RYYWWYYR.",
+                    "..RYYYYR..", "...RRRR...", "....GG....", "...GGGG..."
                 ];
                 const colors = {'R':'#e91e63','Y':'#ffeb3b','W':'#fff','G':'#4caf50'};
                 drawPixelGrid(ctx, this.x, this.y, this.w, this.h, sprite, colors);
@@ -933,13 +826,12 @@
                 this.x += this.vx;
                 this.y += this.vy;
                 
-                // Simple collision
                 let cx = Math.floor((this.x+this.w/2)/TS);
                 let cy = Math.floor((this.y+this.h/2)/TS);
                 if(cy>=0 && cy<mapHeight && cx>=0 && cx<mapWidth) {
                     if(isSolid(map[cy][cx])) {
                         if(this.vy > 0) {
-                            this.vy = -5; // Bounce
+                            this.vy = -5;
                             this.bounces++;
                             if(this.bounces > 3) this.dead = true;
                         } else {
@@ -970,7 +862,7 @@
                 if (tile === '?') {
                     entities.push(new Item(c*TS + 5, r*TS - 30, 'flower'));
                 } else {
-                    createParticles(c*TS + TS/2, r*TS, '#ffeb3b', 5); // Coin
+                    createParticles(c*TS + TS/2, r*TS, '#ffeb3b', 5); 
                 }
             }
         }
@@ -1038,24 +930,21 @@
 
         function checkEntityCollisions() {
             if(!player) return;
-            // Player vs Entities
             for (let i = entities.length - 1; i >= 0; i--) {
                 let ent = entities[i];
                 if (!ent || ent.dead) continue;
                 
-                // AABB Collision
                 if (player.x < ent.x + ent.w && player.x + player.w > ent.x &&
                     player.y < ent.y + ent.h && player.y + player.h > ent.y) {
                     
                     if (ent instanceof Item) {
                         ent.dead = true;
-                        player.power = 1; // POWER UP GAINED
+                        player.power = 1; 
                         hudHp.innerText = "HP: ❤️❤️";
                         createParticles(player.x+player.w/2, player.y, '#ffeb3b', 15);
                     } else if (ent instanceof Enemy || ent instanceof Boss) {
-                        // Stomp check (player moving down, slightly above enemy)
                         if (player.vy > 0 && player.y + player.h < ent.y + ent.h/2) {
-                            player.vy = JUMP_FORCE * 0.8; // Bounce
+                            player.vy = JUMP_FORCE * 0.8; 
                             if(ent instanceof Boss) {
                                 ent.takeDamage();
                             } else {
@@ -1068,7 +957,6 @@
                     }
                 }
 
-                // Fireballs vs Entities
                 if(ent instanceof Enemy || ent instanceof Boss) {
                     for(let j=fireballs.length-1; j>=0; j--) {
                         let fb = fireballs[j];
@@ -1086,9 +974,7 @@
                 }
             }
 
-            // Rescue dog check in Boss room
             if (currentLevelIndex === 9 && (entities.length === 0 || (entities.length>0 && entities[0].dead))) {
-                // If boss is dead and player reaches dog area
                 let cx = Math.floor((player.x + player.w/2)/TS);
                 if(cx >= mapWidth - 4) {
                     levelComplete();
@@ -1099,12 +985,9 @@
         function drawMap() {
             let theme = themes[currentLevelIndex % themes.length];
             
-            // Draw Background Image if loaded, otherwise gradient
             if (bgImg.complete && bgImg.width > 0) {
-                // Simple parallax effect for background
                 let bgX = -(cameraX * 0.5) % canvas.width;
                 ctx.drawImage(bgImg, bgX, 0, canvas.width, canvas.height);
-                // Draw a second time to loop it seamlessly if needed (basic implementation)
                 if (bgX < 0) {
                     ctx.drawImage(bgImg, bgX + canvas.width, 0, canvas.width, canvas.height);
                 }
@@ -1119,14 +1002,12 @@
             ctx.save();
             ctx.translate(Math.floor(-cameraX), 0);
 
-            // Draw Tiles
             for (let r = 0; r < mapHeight; r++) {
                 for (let c = 0; c < mapWidth; c++) {
                     let tile = map[r][c];
                     let tx = c * TS;
                     let ty = r * TS;
                     
-                    // Frustum culling
                     if (tx + TS < cameraX || tx > cameraX + canvas.width) continue;
 
                     if (tile === 'G') {
@@ -1142,51 +1023,47 @@
                         ctx.strokeStyle = '#fff'; ctx.strokeRect(tx, ty, TS, TS);
                         ctx.fillStyle = '#fff'; ctx.font = '24px Courier'; ctx.fillText('?', tx+12, ty+28);
                     } else if (tile === 'e') {
-                        ctx.fillStyle = '#795548'; ctx.fillRect(tx, ty, TS, TS); // Empty block
-                    } else if (tile === 'P') { // Pipe top
+                        ctx.fillStyle = '#795548'; ctx.fillRect(tx, ty, TS, TS); 
+                    } else if (tile === 'P') { 
                         ctx.fillStyle = '#4CAF50'; ctx.fillRect(tx-2, ty, TS+4, TS);
                         ctx.strokeStyle = '#000'; ctx.strokeRect(tx-2, ty, TS+4, TS);
-                    } else if (tile === 'p') { // Pipe body
+                    } else if (tile === 'p') { 
                         ctx.fillStyle = '#388E3C'; ctx.fillRect(tx, ty, TS, TS);
                         ctx.strokeStyle = '#000'; ctx.strokeRect(tx, ty, TS, TS);
-                    } else if (tile === 'W') { // Flag
+                    } else if (tile === 'W') { 
+                        // Το σημαιάκι με τη φωτογραφία
                         ctx.fillStyle = '#fff'; ctx.fillRect(tx+15, ty, 5, TS);
-                        ctx.fillStyle = '#f44336'; ctx.beginPath(); ctx.moveTo(tx+20, ty); ctx.lineTo(tx+40, ty+10); ctx.lineTo(tx+20, ty+20); ctx.fill();
-                    } else if (tile === 'F') { // Lava
+                        let fImg = flagImages[currentLevelIndex];
+                        if (fImg && fImg.complete && fImg.width > 0) {
+                            ctx.drawImage(fImg, tx + 20, ty, 30, 30);
+                        } else {
+                            ctx.fillStyle = '#f44336'; ctx.beginPath(); ctx.moveTo(tx+20, ty); ctx.lineTo(tx+40, ty+10); ctx.lineTo(tx+20, ty+20); ctx.fill();
+                        }
+                    } else if (tile === 'F') { 
                         ctx.fillStyle = '#f44336'; ctx.fillRect(tx, ty+10, TS, TS-10);
                         ctx.fillStyle = '#ff9800'; 
                         if(Math.floor(frameCount/10)%2===0) ctx.fillRect(tx+5, ty+5, 10, 5);
-                    } else if (tile === 'C') { // Cage
+                    } else if (tile === 'C') { 
                         ctx.fillStyle = '#757575'; ctx.fillRect(tx, ty, TS, TS);
                         ctx.fillStyle = '#000'; ctx.fillRect(tx+5, ty+5, TS-10, TS-10);
-                        // Draw Dog inside
                         if (dogImg.complete && dogImg.width > 0) {
                             ctx.drawImage(dogImg, tx+5, ty+5, TS-10, TS-10);
                         }
-                        // Bars
                         ctx.fillStyle = '#9e9e9e'; 
                         ctx.fillRect(tx+10, ty, 4, TS); ctx.fillRect(tx+26, ty, 4, TS);
                     }
                 }
             }
 
-            // Draw Entities & Particles safely
             entities.forEach(ent => {
-                if (ent && typeof ent.draw === 'function') {
-                    ent.draw(ctx);
-                }
+                if (ent && typeof ent.draw === 'function') ent.draw(ctx);
             });
-            
             fireballs.forEach(fb => {
-                if (fb && typeof fb.draw === 'function') {
-                    fb.draw(ctx);
-                }
+                if (fb && typeof fb.draw === 'function') fb.draw(ctx);
             });
-            
             if (player && typeof player.draw === 'function') {
                 player.draw(ctx);
             }
-            
             particles.forEach(p => {
                 if (p) {
                     ctx.fillStyle = p.color;
@@ -1214,7 +1091,6 @@
                 
                 checkEntityCollisions();
 
-                // Cleanup dead entities
                 entities = entities.filter(ent => ent && !ent.dead);
                 fireballs = fireballs.filter(fb => fb && !fb.dead);
                 particles = particles.filter(p => {
@@ -1223,7 +1099,6 @@
                     return p.life > 0;
                 });
 
-                // Camera follow
                 if(player) {
                     let targetX = player.x - canvas.width / 2;
                     let maxCameraX = Math.max(0, mapWidth * TS - canvas.width);
@@ -1237,7 +1112,6 @@
             requestAnimationFrame(gameLoop);
         }
 
-        // Start engine
         gameLoop();
     </script>
 </body>
